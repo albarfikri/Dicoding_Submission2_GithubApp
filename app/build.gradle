@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+
+    //Parcelize
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -47,4 +50,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
 }
