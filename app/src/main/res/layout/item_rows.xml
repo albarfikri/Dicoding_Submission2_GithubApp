@@ -18,105 +18,33 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/img_item_photo"
-            android:layout_width="105dp"
-            android:layout_height="104dp"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:scaleType="centerCrop"
             app:civ_border_color="@color/black"
             app:civ_border_overlay="true"
             app:civ_border_width="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.057"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.28"
+            app:layout_constraintVertical_bias="0.0"
             tools:src="@color/teal_200" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/img_item_photo"
-            app:layout_constraintStart_toEndOf="@+id/img_item_photo"
-            app:layout_constraintTop_toTopOf="@+id/img_item_photo"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="Name" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
-            android:text="Follower"
-            app:layout_constraintBottom_toBottomOf="@+id/img_item_photo"
-            app:layout_constraintStart_toEndOf="@+id/img_item_photo"
-            app:layout_constraintTop_toBottomOf="@+id/tv_username"
-            app:layout_constraintVertical_bias="0.0"
-            tools:text="Follower" />
-
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="4dp"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/img_item_photo"
-            app:layout_constraintStart_toEndOf="@+id/img_item_photo"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name"
-            app:layout_constraintVertical_bias="0.023"
-            tools:text="Username" />
-
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:text="Following"
-            app:layout_constraintBottom_toBottomOf="@+id/textView"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toTopOf="@+id/textView"
-            tools:text="Following" />
-
-        <TextView
-            android:id="@+id/tv_follower"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/followers"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:text="237"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:text="12" />
-
-        <TextView
-            android:id="@+id/tv_following"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/following"
-            android:drawablePadding="4dp"
-            android:gravity="center"
-            android:text="124"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/textView2"
-            app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:text="23" />
+            app:layout_constraintEnd_toEndOf="@+id/img_item_photo"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toStartOf="@+id/img_item_photo"
+            app:layout_constraintTop_toBottomOf="@+id/img_item_photo"
+            tools:text="Name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
