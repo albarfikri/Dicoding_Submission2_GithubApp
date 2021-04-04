@@ -1,23 +1,22 @@
 package com.example.github2.View
 
-import android.app.ActionBar
-import android.app.SearchManager
-import android.content.Context
+
 import android.content.Intent
+import android.media.audiofx.BassBoost
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
+import android.provider.Settings.ACTION_LOCALE_SETTINGS
 import android.util.Log
-import android.view.KeyEvent
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.github2.Model.User
 import com.example.github2.R
 import com.example.github2.ViewModel.MainViewModel
 import com.example.github2.databinding.ActivityMainBinding
@@ -30,6 +29,8 @@ class MainActivity : AppCompatActivity() {
     // inisialisasi adapter
     private lateinit var adapter: UserAdapter
 
+    private val list = ArrayList<User>()
+
     // Live Data
     private lateinit var mainViewModel: MainViewModel
 
@@ -38,40 +39,53 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Inisialisasi adapter
+        recyclerView()
+
         //Live Data
         mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
 
-
-        // Inisialisasi adapter
-        adapter = UserAdapter()
-        adapter.notifyDataSetChanged()
-        binding.rvUser.setHasFixedSize(true)
-        binding.rvUser.layoutManager = GridLayoutManager(this, 2)
-        binding.rvUser.adapter = adapter
-
         search()
+        showLoading(true)
         mainViewModel.getAll()
+        Log.d("loading",showLoading(true).toString())
         setData()
         // Keeping data while having the different orientation
         mainViewModel.getSearchLiveData().observe(this, { query ->
             if (query != "") {
                 mainViewModel.setDataByUsername(query)
                 Log.d("LiveDataUsername", query)
-                setData()
-            } else {
-                setData()
             }
         })
     }
 
+    // setting menu and localization
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // menu Points
         val inflater = menuInflater
         inflater.inflate(R.menu.option_menu, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    private fun recyclerView() {
+        adapter = UserAdapter()
+        adapter.notifyDataSetChanged()
+        binding.rvUser.setHasFixedSize(true)
+        binding.rvUser.layoutManager = GridLayoutManager(this, 2)
+        binding.rvUser.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: User) {
+                Toast.makeText(this@MainActivity, "Loading..", Toast.LENGTH_SHORT).show()
+                val moveToDetail = Intent(this@MainActivity, DetailUser::class.java)
+                moveToDetail.putExtra(DetailUser.Data, data)
+                startActivity(moveToDetail)
+
+            }
+        })
     }
 
     private fun search() {
@@ -125,6 +139,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // setting localization
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.changeLanguage) {
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     // Set data
     fun setData() {
         mainViewModel.getAvailabilityState().observe(this, { state ->
@@ -137,7 +160,6 @@ class MainActivity : AppCompatActivity() {
                         showLoading(false)
                         dataNotFound(false)
                     }
-
                 })
             } else {
                 mainViewModel.getListUser().observe(this, { userItems ->

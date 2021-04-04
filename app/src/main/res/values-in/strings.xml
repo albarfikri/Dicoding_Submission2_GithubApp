@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Github</string>
+    <string name="points_menu1">Pengaturan</string>
+    <string name="search_hint">Cari…</string>
+    <string name="dataNotFound">Data tidak ditemukan..</string>
+    <string name="followers">Mengikuti</string>
+    <string name="following">Pengikut</string>
+    <string name="repository">Repositori</string>
+    <string name="settingChangeLanguage">Ganti Bahasa</string>
+    <string name="dataNotSet">tidak diset</string>
+</resources>

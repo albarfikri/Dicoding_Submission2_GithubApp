@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Github</string>
+    <string name="points_menu1">réglage</string>
+    <string name="search_hint">Chercher…</string>
+    <string name="dataNotFound">Données non trouvées..</string>
+    <string name="followers">Suiveurs</string>
+    <string name="following">Suivant</string>
+    <string name="repository">le dépôt</string>
+    <string name="settingChangeLanguage">
+changer de langue</string>
+    <string name="dataNotSet">
+données non définies</string>
+</resources>

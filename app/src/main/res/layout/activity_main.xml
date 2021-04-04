@@ -7,7 +7,6 @@
     tools:context=".View.MainActivity">
 
 
-
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,29 +21,27 @@
             android:id="@+id/dataNotFound"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="6dp"
             android:text="@string/dataNotFound"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:padding="6dp"
             android:visibility="gone" />
-
-
     </androidx.cardview.widget.CardView>
 
 
     <com.scwang.wave.MultiWaveHeader
         android:id="@+id/wave_header"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:mwhCloseColor="@color/black"
+        app:mwhGradientAngle="90"
         app:mwhProgress="1"
         app:mwhStartColor="@color/black"
         app:mwhVelocity="1"
-        app:mwhGradientAngle="90"
-        app:mwhWaveHeight="120dp" />
-
+        app:mwhWaveHeight="100dp" />
 
     <com.scwang.wave.MultiWaveHeader
         android:id="@+id/wave_footer"
@@ -55,6 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:mwhCloseColor="@color/black"
         app:mwhProgress="1"
         app:mwhStartColor="@color/black"
         app:mwhVelocity="1"
@@ -79,11 +77,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@id/guideline2"
-        android:padding="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchView" />
+        app:layout_constraintTop_toBottomOf="@id/searchView"
+        tools:listitem="@layout/item_rows"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -107,6 +105,7 @@
             style="@style/SpinKitView.Pulse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_gravity="center"
             android:padding="16dp"
             app:SpinKit_Color="@color/white" />

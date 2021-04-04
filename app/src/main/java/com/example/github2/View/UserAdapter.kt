@@ -10,8 +10,18 @@ import com.example.github2.Model.User
 import com.example.github2.R
 import com.example.github2.databinding.ItemRowsBinding
 
-class UserAdapter :
+class UserAdapter() :
     RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
+
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: User)
+    }
 
     private val mData = ArrayList<User>()
 
@@ -47,6 +57,10 @@ class UserAdapter :
                     .load(user.avatar)
                     .into(binding.imgItemPhoto)
                 binding.tvName.text = user.username
+
+                itemView.setOnClickListener {
+                    onItemClickCallback.onItemClicked(user)
+                }
             }
         }
     }

@@ -17,16 +17,70 @@ class MainViewModel : ViewModel() {
     val listUser = MutableLiveData<ArrayList<User>>()
     val searchLiveData = MutableLiveData<String>()
     val availabilityState = MutableLiveData<Boolean>()
-    val url = "https://api.github.com"
+    val followerAndFollowing = MutableLiveData<ArrayList<User>>()
 
-
-    fun getListUser(): LiveData<ArrayList<User>> {
-        return listUser
+    companion object {
+        const val url = "https://api.github.com"
     }
+
+    fun getListUser(): LiveData<ArrayList<User>> = listUser
 
     fun getSearchLiveData(): LiveData<String> = searchLiveData
 
     fun getAvailabilityState(): LiveData<Boolean> = availabilityState
+
+    fun setFollowerAndFollowing(username: String?, typeUser: String) {
+        val listItems = ArrayList<User>()
+
+        val link = "$url/users/$username/$typeUser"
+        val client = AsyncHttpClient()
+        client.addHeader("Authorization", "")
+
+        client.addHeader("User-Agent", "request")
+        client.get(link, object : AsyncHttpResponseHandler() {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Array<out Header>,
+                responseBody: ByteArray
+            ) {
+                try {
+                    // Parsing JSON
+                    val result = String(responseBody)
+                    Log.d("Parsingfoll", result)
+                    val responseArray = JSONArray(result)
+                    if (responseArray.length() > 0) {
+
+                        for (i in 0 until responseArray.length()) {
+                            // taking an object sesuai urutan
+                            val item = responseArray.getJSONObject(i)
+                            val user = User()
+                            user.username = item.getString("login")
+                            user.avatar = item.getString("avatar_url")
+                            listItems.add(user)
+                        }
+                        listUser.postValue(listItems)
+                        availabilityState.postValue(true)
+                    } else {
+                        availabilityState.postValue(false)
+                        listUser.postValue(listItems)
+                    }
+
+                } catch (e: Exception) {
+                    Log.d("onFailure", e.message.toString())
+                }
+            }
+
+            override fun onFailure(
+                statusCode: Int,
+                headers: Array<out Header>?,
+                responseBody: ByteArray?,
+                error: Throwable?
+            ) {
+                // giving failure tag
+                Log.d("onFailure", error?.message.toString())
+            }
+        })
+    }
 
     fun setSearchLiveData(username: String) {
         searchLiveData.postValue(username)
@@ -37,7 +91,8 @@ class MainViewModel : ViewModel() {
 
         val link = "$url/search/users?q=$username"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "Your api-key")
+        client.addHeader("Authorization", "")
+
         client.addHeader("User-Agent", "request")
         client.get(link, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
@@ -94,7 +149,7 @@ class MainViewModel : ViewModel() {
         val link = "$url/users"
 
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "your api key")
+        client.addHeader("Authorization", "")
         client.addHeader("User-Agent", "request")
         client.get(link, object : AsyncHttpResponseHandler() {
             override fun onSuccess(
