@@ -1,5 +1,6 @@
 package com.example.github2.View
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -7,8 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.github2.Model.User
 import com.example.github2.ViewModel.MainViewModel
 import com.example.github2.databinding.FragmentUserDetailBinding
 
@@ -68,6 +71,15 @@ class UserDetailFragment : Fragment() {
         binding.rvDetail.setHasFixedSize(true)
         binding.rvDetail.layoutManager = LinearLayoutManager(context)
         binding.rvDetail.adapter = adapter
+
+        adapter.setOnItemClickCallback(object : DetailAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: User) {
+                val moveToDetail = Intent(context, DetailUser::class.java)
+                moveToDetail.putExtra(DetailUser.Data, data)
+                startActivity(moveToDetail)
+
+            }
+        })
     }
 
     //Loading View
@@ -90,5 +102,4 @@ class UserDetailFragment : Fragment() {
         }
         )
     }
-
 }

@@ -11,6 +11,16 @@ import com.example.github2.databinding.ItemRowsDetailBinding
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ListViewHolder>() {
 
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: User)
+    }
+
     private val mData = ArrayList<User>()
 
     fun setData(items: ArrayList<User>) {
@@ -43,6 +53,10 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ListViewHolder>() {
                 .load(user.avatar)
                 .into(binding.imgItemPhoto)
             binding.tvUsername.text = user.username
+
+            itemView.setOnClickListener {
+                onItemClickCallback.onItemClicked(user)
+            }
         }
     }
 

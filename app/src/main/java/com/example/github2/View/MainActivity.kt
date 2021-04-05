@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity() {
     // inisialisasi adapter
     private lateinit var adapter: UserAdapter
 
-    private val list = ArrayList<User>()
-
     // Live Data
     private lateinit var mainViewModel: MainViewModel
 
