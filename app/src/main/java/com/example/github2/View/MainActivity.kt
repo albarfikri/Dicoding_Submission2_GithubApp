@@ -2,12 +2,12 @@ package com.example.github2.View
 
 
 import android.content.Intent
-import android.media.audiofx.BassBoost
+import android.content.pm.ActivityInfo
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.provider.Settings.ACTION_LOCALE_SETTINGS
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -20,16 +20,17 @@ import com.example.github2.Model.User
 import com.example.github2.R
 import com.example.github2.ViewModel.MainViewModel
 import com.example.github2.databinding.ActivityMainBinding
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT as SCREEN_ORIENTATION_PORTRAIT
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    // inisialisasi adapter
+
     private lateinit var adapter: UserAdapter
 
-    // Live Data
+
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,43 +38,48 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inisialisasi adapter
         recyclerView()
 
-        //Live Data
         mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
 
-        search()
         showLoading(true)
         mainViewModel.getAll()
-        Log.d("loading",showLoading(true).toString())
+        search()
         setData()
-        // Keeping data while having the different orientation
+
         mainViewModel.getSearchLiveData().observe(this, { query ->
             if (query != "") {
                 mainViewModel.setDataByUsername(query)
-                Log.d("LiveDataUsername", query)
             }
         })
     }
 
-    // setting menu and localization
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // menu Points
         val inflater = menuInflater
         inflater.inflate(R.menu.option_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
     private fun recyclerView() {
-        adapter = UserAdapter()
-        adapter.notifyDataSetChanged()
-        binding.rvUser.setHasFixedSize(true)
-        binding.rvUser.layoutManager = GridLayoutManager(this, 2)
-        binding.rvUser.adapter = adapter
+        var orientation = resources.configuration.orientation
+        if(orientation == SCREEN_ORIENTATION_PORTRAIT) {
+            adapter = UserAdapter()
+            adapter.notifyDataSetChanged()
+            binding.rvUser.setHasFixedSize(true)
+
+            binding.rvUser.layoutManager = GridLayoutManager(this, 2)
+            binding.rvUser.adapter = adapter
+        }else{
+            adapter = UserAdapter()
+            adapter.notifyDataSetChanged()
+            binding.rvUser.setHasFixedSize(true)
+            binding.rvUser.layoutManager = GridLayoutManager(this, 3)
+            binding.rvUser.adapter = adapter
+        }
+
 
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
@@ -96,7 +102,6 @@ class MainActivity : AppCompatActivity() {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     mainViewModel.setDataByUsername(query)
                     mainViewModel.setSearchLiveData(query)
-                    setData()
                     return true
                 }
 
@@ -105,19 +110,16 @@ class MainActivity : AppCompatActivity() {
                         mainViewModel.setDataByUsername(newText)
                         mainViewModel.setSearchLiveData(newText)
                         showLoading(true)
-                        setData()
                     } else {
                         mainViewModel.getAll()
                     }
                     dataNotFound(false)
-                    setData()
-                    return false
+                    return true
                 }
             })
         }
     }
 
-    //Loading View
     private fun showLoading(state: Boolean) {
         val delayTime = 1000L
         if (state) {
@@ -137,7 +139,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // setting localization
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.changeLanguage) {
             val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
@@ -146,14 +147,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    // Set data
     fun setData() {
         mainViewModel.getAvailabilityState().observe(this, { state ->
             if (state) {
-                Log.d("state1", state.toString())
                 mainViewModel.getListUser().observe(this, { userItems ->
                     if (userItems != null) {
-                        Log.d("User", userItems.toString())
                         adapter.setData(userItems)
                         showLoading(false)
                         dataNotFound(false)
@@ -161,7 +159,6 @@ class MainActivity : AppCompatActivity() {
                 })
             } else {
                 mainViewModel.getListUser().observe(this, { userItems ->
-                    Log.d("User", userItems.toString())
                     adapter.setData(userItems)
                     showLoading(false)
                     dataNotFound(true)

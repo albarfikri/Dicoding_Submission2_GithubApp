@@ -17,7 +17,6 @@ class MainViewModel : ViewModel() {
     val listUser = MutableLiveData<ArrayList<User>>()
     val searchLiveData = MutableLiveData<String>()
     val availabilityState = MutableLiveData<Boolean>()
-    val followerAndFollowing = MutableLiveData<ArrayList<User>>()
 
     companion object {
         const val url = "https://api.github.com"
@@ -61,8 +60,8 @@ class MainViewModel : ViewModel() {
                         listUser.postValue(listItems)
                         availabilityState.postValue(true)
                     } else {
-                        availabilityState.postValue(false)
                         listUser.postValue(listItems)
+                        availabilityState.postValue(false)
                     }
 
                 } catch (e: Exception) {

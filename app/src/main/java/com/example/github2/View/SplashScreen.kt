@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
-import com.example.github2.R
 import com.example.github2.databinding.ActivitySplashScreenBinding
 
 @Suppress("DEPRECATION")

@@ -3,12 +3,10 @@ package com.example.github2.View
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.github2.Model.User
@@ -82,7 +80,6 @@ class UserDetailFragment : Fragment() {
         })
     }
 
-    //Loading View
     private fun showLoading(state: Boolean) {
         val delayTime = 1000L
         if (state) {
@@ -94,12 +91,34 @@ class UserDetailFragment : Fragment() {
         }
     }
 
-    private fun inflateData() {
-        mainViewModel.getListUser().observe(viewLifecycleOwner,{ listUser ->
-            Log.d("datayang", listUser.toString())
-            adapter.setData(listUser)
-            showLoading(false)
+    private fun dataNotFound(state: Boolean) {
+        if (state) {
+            binding.dataNotFound.visibility = View.VISIBLE
+        } else {
+            binding.dataNotFound.visibility = View.GONE
         }
-        )
+    }
+
+    private fun inflateData() {
+        mainViewModel.getAvailabilityState().observe(viewLifecycleOwner, { state ->
+            if (state) {
+                mainViewModel.getListUser().observe(viewLifecycleOwner, { listUser ->
+                    adapter.setData(listUser)
+                    dataNotFound(false)
+                    showLoading(false)
+                })
+            }
+            else{
+                mainViewModel.getListUser().observe(viewLifecycleOwner, { userItems ->
+                    adapter.setData(userItems)
+
+                    showLoading(false)
+                    val delayTime = 1000L
+                    Handler().postDelayed({
+                        dataNotFound(true)
+                    }, delayTime)
+                })
+            }
+        })
     }
 }
