@@ -11,7 +11,7 @@ import com.example.github2.databinding.ActivitySplashScreenBinding
 class SplashScreen : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
-    private var delaySplashScreen: Long = 5000
+    private var delaySplashScreen: Long = 6000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

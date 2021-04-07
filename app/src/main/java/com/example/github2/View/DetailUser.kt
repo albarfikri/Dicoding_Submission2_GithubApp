@@ -1,8 +1,12 @@
 package com.example.github2.View
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModelProvider
@@ -80,6 +84,20 @@ class DetailUser : AppCompatActivity() {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.changeLanguage) {
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun tabLayoutSetting() {
         val dataSentFromUsername = intent.getParcelableExtra<User>(Data)?.username as String
 
@@ -120,7 +138,7 @@ class DetailUser : AppCompatActivity() {
         if (data != "null") {
             message = data
         } else {
-            var language:String = resources.getString(R.string.dataNotSet)
+            var language: String = resources.getString(R.string.dataNotSet)
             message = language
         }
         return message

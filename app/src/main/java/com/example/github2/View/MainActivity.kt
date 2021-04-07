@@ -26,35 +26,31 @@ import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT as SCREEN_ORI
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-
     private lateinit var adapter: UserAdapter
-
-
     private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        recyclerView()
-
         mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
         ).get(MainViewModel::class.java)
-
+        recyclerView()
         showLoading(true)
-        mainViewModel.getAll()
         search()
-        setData()
-
         mainViewModel.getSearchLiveData().observe(this, { query ->
             if (query != "") {
+                Log.d("lalalala", query)
                 mainViewModel.setDataByUsername(query)
+                setData()
+            } else {
+                mainViewModel.getAll()
+                setData()
             }
         })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -63,23 +59,25 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.changeLanguage) {
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun recyclerView() {
         var orientation = resources.configuration.orientation
-        if(orientation == SCREEN_ORIENTATION_PORTRAIT) {
-            adapter = UserAdapter()
-            adapter.notifyDataSetChanged()
-            binding.rvUser.setHasFixedSize(true)
-
+        adapter = UserAdapter()
+        adapter.notifyDataSetChanged()
+        binding.rvUser.setHasFixedSize(true)
+        if (orientation == SCREEN_ORIENTATION_PORTRAIT) {
             binding.rvUser.layoutManager = GridLayoutManager(this, 2)
-            binding.rvUser.adapter = adapter
-        }else{
-            adapter = UserAdapter()
-            adapter.notifyDataSetChanged()
-            binding.rvUser.setHasFixedSize(true)
+        } else {
             binding.rvUser.layoutManager = GridLayoutManager(this, 3)
-            binding.rvUser.adapter = adapter
         }
-
+        binding.rvUser.adapter = adapter
 
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
@@ -87,7 +85,6 @@ class MainActivity : AppCompatActivity() {
                 val moveToDetail = Intent(this@MainActivity, DetailUser::class.java)
                 moveToDetail.putExtra(DetailUser.Data, data)
                 startActivity(moveToDetail)
-
             }
         })
     }
@@ -100,20 +97,24 @@ class MainActivity : AppCompatActivity() {
             }
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
+                    showLoading(true)
                     mainViewModel.setDataByUsername(query)
                     mainViewModel.setSearchLiveData(query)
+                    setData()
                     return true
                 }
 
                 override fun onQueryTextChange(newText: String): Boolean {
+                    showLoading(true)
                     if (newText.isNotEmpty()) {
+                        showLoading(true)
                         mainViewModel.setDataByUsername(newText)
                         mainViewModel.setSearchLiveData(newText)
-                        showLoading(true)
+                        setData()
                     } else {
                         mainViewModel.getAll()
+                        setData()
                     }
-                    dataNotFound(false)
                     return true
                 }
             })
@@ -139,22 +140,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.changeLanguage) {
-            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(mIntent)
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    fun setData() {
+    private fun setData() {
         mainViewModel.getAvailabilityState().observe(this, { state ->
             if (state) {
                 mainViewModel.getListUser().observe(this, { userItems ->
                     if (userItems != null) {
                         adapter.setData(userItems)
-                        showLoading(false)
                         dataNotFound(false)
+                        showLoading(false)
                     }
                 })
             } else {

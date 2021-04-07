@@ -24,9 +24,14 @@ class MainViewModel : ViewModel() {
 
     fun getListUser(): LiveData<ArrayList<User>> = listUser
 
+
     fun getSearchLiveData(): LiveData<String> = searchLiveData
 
     fun getAvailabilityState(): LiveData<Boolean> = availabilityState
+
+    fun setSearchLiveData(username: String) {
+        searchLiveData.postValue(username)
+    }
 
     fun setFollowerAndFollowing(username: String?, typeUser: String) {
         val listItems = ArrayList<User>()
@@ -43,14 +48,11 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray
             ) {
                 try {
-                    // Parsing JSON
                     val result = String(responseBody)
-                    Log.d("Parsingfoll", result)
                     val responseArray = JSONArray(result)
                     if (responseArray.length() > 0) {
 
                         for (i in 0 until responseArray.length()) {
-                            // taking an object sesuai urutan
                             val item = responseArray.getJSONObject(i)
                             val user = User()
                             user.username = item.getString("login")
@@ -75,15 +77,11 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray?,
                 error: Throwable?
             ) {
-                // giving failure tag
                 Log.d("onFailure", error?.message.toString())
             }
         })
     }
 
-    fun setSearchLiveData(username: String) {
-        searchLiveData.postValue(username)
-    }
 
     fun setDataByUsername(username: String) {
         val listItems = ArrayList<User>()
@@ -100,8 +98,6 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray
             ) {
                 try {
-                    // Parsing JSON
-
                     val result = String(responseBody)
                     Log.d("Parsing", result)
                     val responseObject = JSONObject(result)
@@ -135,7 +131,6 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray?,
                 error: Throwable?
             ) {
-                // giving failure tag
                 Log.d("onFailure", error?.message.toString())
             }
 
@@ -157,20 +152,18 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray
             ) {
                 try {
-                    //parsing JSON
                     val result = String(responseBody)
                     Log.d("Berhasil Mengubah", result)
                     val jsonArray = JSONArray(result)
-
-                    for (i in 0 until jsonArray.length()) {
-                        val jsonObject = jsonArray.getJSONObject(i)
-                        val userItems = User()
-                        userItems.username = jsonObject.getString("login")
-                        userItems.avatar = jsonObject.getString("avatar_url")
-                        listItems.add(userItems)
-                    }
-                    listUser.postValue(listItems)
-                    availabilityState.postValue(true)
+                        for (i in 0 until jsonArray.length()) {
+                            val jsonObject = jsonArray.getJSONObject(i)
+                            val userItems = User()
+                            userItems.username = jsonObject.getString("login")
+                            userItems.avatar = jsonObject.getString("avatar_url")
+                            listItems.add(userItems)
+                        }
+                        listUser.postValue(listItems)
+                        availabilityState.postValue(true)
                 } catch (e: Exception) {
                     Log.d("Exception", e.message.toString())
                 }
