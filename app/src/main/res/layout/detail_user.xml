@@ -4,12 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.DetailUser">
+    tools:context=".view.DetailUserActivity">
 
     <androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#000000"
@@ -19,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.github.ybq.android.spinkit.SpinKitView xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/progressBar"
             style="@style/SpinKitView.Pulse"
             android:layout_width="wrap_content"
@@ -82,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="16dp"
-                android:drawableLeft="@drawable/location"
+                android:drawableStart="@drawable/location"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
                 android:textSize="16sp"
@@ -129,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="12dp"
-                android:drawableLeft="@drawable/ic_office"
+                android:drawableStart="@drawable/ic_office"
                 android:drawablePadding="4dp"
                 android:gravity="center_vertical"
                 android:textSize="16sp"
@@ -179,7 +176,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/imageView3"
                 app:layout_constraintHorizontal_bias="0.487"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/tv_company" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_company"
+                />
 
             <TextView
                 android:id="@+id/textView"

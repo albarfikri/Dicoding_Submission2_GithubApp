@@ -1,7 +1,6 @@
-package com.example.github2.View
+package com.example.github2.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
@@ -9,18 +8,19 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.github2.Model.User
 import com.example.github2.R
-import com.example.github2.ViewModel.DetailViewModel
 import com.example.github2.databinding.DetailUserBinding
+import com.example.github2.model.User
+import com.example.github2.viewmodel.DetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 @Suppress("DEPRECATION")
-class DetailUser : AppCompatActivity() {
+class DetailUserActivity : AppCompatActivity() {
 
 
     companion object {
@@ -69,7 +69,7 @@ class DetailUser : AppCompatActivity() {
         detailViewModel.getDetailUser().observe(this, { userData ->
             if (userData != null) {
                 with(binding) {
-                    Glide.with(this@DetailUser)
+                    Glide.with(this@DetailUserActivity)
                         .load(userData.avatar)
                         .into(imgItemPhoto)
 
@@ -127,20 +127,17 @@ class DetailUser : AppCompatActivity() {
         if (state) {
             binding.progressBar.visibility = View.VISIBLE
         } else {
-            Handler().postDelayed({
+            Handler(mainLooper).postDelayed({
                 binding.progressBar.visibility = View.GONE
             }, delayTime)
         }
     }
 
     private fun validatingData(data: String): String {
-        var message: String
-        if (data != "null") {
-            message = data
-        } else {
-            var language: String = resources.getString(R.string.dataNotSet)
-            message = language
+        return if (data != "null") {
+            data
+        } else{
+            resources.getString(R.string.dataNotSet)
         }
-        return message
     }
 }

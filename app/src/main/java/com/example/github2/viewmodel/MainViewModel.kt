@@ -1,10 +1,10 @@
-package com.example.github2.ViewModel
+package com.example.github2.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.github2.Model.User
+import com.example.github2.model.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
@@ -14,9 +14,9 @@ import java.lang.Exception
 
 class MainViewModel : ViewModel() {
 
-    val listUser = MutableLiveData<ArrayList<User>>()
-    val searchLiveData = MutableLiveData<String>()
-    val availabilityState = MutableLiveData<Boolean>()
+    private val listUser = MutableLiveData<ArrayList<User>>()
+    private val searchLiveData = MutableLiveData<String>()
+    private val availabilityState = MutableLiveData<Boolean>()
 
     companion object {
         const val url = "https://api.github.com"

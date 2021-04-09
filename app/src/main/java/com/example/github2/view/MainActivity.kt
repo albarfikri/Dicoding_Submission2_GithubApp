@@ -1,26 +1,23 @@
-package com.example.github2.View
+package com.example.github2.view
 
 
 import android.content.Intent
-import android.content.pm.ActivityInfo
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-import androidx.appcompat.app.AppCompatActivity
+import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.github2.Model.User
 import com.example.github2.R
-import com.example.github2.ViewModel.MainViewModel
 import com.example.github2.databinding.ActivityMainBinding
-import android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT as SCREEN_ORIENTATION_PORTRAIT
+import com.example.github2.model.User
+import com.example.github2.viewmodel.MainViewModel
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -42,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         search()
         mainViewModel.getSearchLiveData().observe(this, { query ->
             if (query != "") {
-                Log.d("lalalala", query)
                 mainViewModel.setDataByUsername(query)
                 setData()
             } else {
@@ -68,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun recyclerView() {
-        var orientation = resources.configuration.orientation
+        val orientation = resources.configuration.orientation
         adapter = UserAdapter()
         adapter.notifyDataSetChanged()
         binding.rvUser.setHasFixedSize(true)
@@ -82,15 +78,15 @@ class MainActivity : AppCompatActivity() {
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
                 Toast.makeText(this@MainActivity, "Loading..", Toast.LENGTH_SHORT).show()
-                val moveToDetail = Intent(this@MainActivity, DetailUser::class.java)
-                moveToDetail.putExtra(DetailUser.Data, data)
+                val moveToDetail = Intent(this@MainActivity, DetailUserActivity::class.java)
+                moveToDetail.putExtra(DetailUserActivity.Data, data)
                 startActivity(moveToDetail)
             }
         })
     }
 
     private fun search() {
-        mainViewModel.searchLiveData.postValue("")
+        mainViewModel.setSearchLiveData("")
         binding.searchView.apply {
             setOnClickListener {
                 this.onActionViewExpanded()

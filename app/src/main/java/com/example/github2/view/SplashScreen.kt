@@ -1,4 +1,4 @@
-package com.example.github2.View
+package com.example.github2.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

@@ -1,4 +1,4 @@
-package com.example.github2.View
+package com.example.github2.view
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,8 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.github2.Model.User
-import com.example.github2.ViewModel.MainViewModel
+import com.example.github2.model.User
+import com.example.github2.viewmodel.MainViewModel
 import com.example.github2.databinding.FragmentUserDetailBinding
 
 
@@ -38,6 +38,12 @@ class UserDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentUserDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         adapter = DetailAdapter()
         mainViewModel = ViewModelProvider(
             this,
@@ -45,12 +51,6 @@ class UserDetailFragment : Fragment() {
         ).get(MainViewModel::class.java)
 
         recyclerView()
-
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
         val username = arguments?.getString(Username)
         val type = arguments?.getString(TypeUser)
@@ -72,8 +72,8 @@ class UserDetailFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : DetailAdapter.OnItemClickCallback {
             override fun onItemClicked(data: User) {
-                val moveToDetail = Intent(context, DetailUser::class.java)
-                moveToDetail.putExtra(DetailUser.Data, data)
+                val moveToDetail = Intent(context, DetailUserActivity::class.java)
+                moveToDetail.putExtra(DetailUserActivity.Data, data)
                 startActivity(moveToDetail)
 
             }
@@ -107,8 +107,7 @@ class UserDetailFragment : Fragment() {
                     dataNotFound(false)
                     showLoading(false)
                 })
-            }
-            else{
+            } else {
                 mainViewModel.getListUser().observe(viewLifecycleOwner, { userItems ->
                     adapter.setData(userItems)
 

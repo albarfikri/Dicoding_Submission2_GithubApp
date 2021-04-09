@@ -1,15 +1,14 @@
-package com.example.github2.ViewModel
+package com.example.github2.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.github2.Model.User
+import com.example.github2.model.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONObject
-import java.lang.Exception
 
 class DetailViewModel : ViewModel() {
     val detailUser = MutableLiveData<User>()
@@ -61,7 +60,7 @@ class DetailViewModel : ViewModel() {
                     responseBody: ByteArray?,
                     error: Throwable?
                 ) {
-                    TODO("Not yet implemented")
+                    Log.d("Exception", error?.message.toString())
                 }
             })
     }

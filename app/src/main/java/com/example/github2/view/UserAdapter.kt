@@ -1,11 +1,11 @@
-package com.example.github2.View
+package com.example.github2.view
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.github2.Model.User
+import com.example.github2.model.User
 import com.example.github2.R
 import com.example.github2.databinding.ItemRowsBinding
 
