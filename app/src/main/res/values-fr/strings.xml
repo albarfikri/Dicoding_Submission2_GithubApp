@@ -10,4 +10,5 @@
 changer de langue</string>
     <string name="dataNotSet">
 données non définies</string>
+    <string name="loading">Chargement en cours…</string>
 </resources>

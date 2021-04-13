@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
-import com.example.github2.model.User
 import com.example.github2.R
 import com.example.github2.databinding.ItemRowsBinding
+import com.example.github2.model.User
 
 class UserAdapter() :
     RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
@@ -54,10 +55,11 @@ class UserAdapter() :
             with(itemView) {
                 Glide.with(itemView.context)
                     .load(user.avatar)
+                    .transition(GenericTransitionOptions.with(R.anim.fragment_open_enter))
                     .into(binding.imgItemPhoto)
                 binding.tvName.text = user.username
 
-                itemView.setOnClickListener {
+                setOnClickListener {
                     onItemClickCallback.onItemClicked(user)
                 }
             }

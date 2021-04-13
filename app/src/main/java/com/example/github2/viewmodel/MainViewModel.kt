@@ -10,7 +10,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import org.json.JSONArray
 import org.json.JSONObject
-import java.lang.Exception
 
 class MainViewModel : ViewModel() {
 
@@ -155,15 +154,16 @@ class MainViewModel : ViewModel() {
                     val result = String(responseBody)
                     Log.d("Berhasil Mengubah", result)
                     val jsonArray = JSONArray(result)
-                        for (i in 0 until jsonArray.length()) {
-                            val jsonObject = jsonArray.getJSONObject(i)
-                            val userItems = User()
-                            userItems.username = jsonObject.getString("login")
-                            userItems.avatar = jsonObject.getString("avatar_url")
-                            listItems.add(userItems)
-                        }
-                        listUser.postValue(listItems)
-                        availabilityState.postValue(true)
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        val userItems = User()
+                        userItems.id = jsonObject.getInt("id")
+                        userItems.avatar = jsonObject.getString("avatar_url")
+                        userItems.username = jsonObject.getString("login")
+                        listItems.add(userItems)
+                    }
+                    listUser.postValue(listItems)
+                    availabilityState.postValue(true)
                 } catch (e: Exception) {
                     Log.d("Exception", e.message.toString())
                 }

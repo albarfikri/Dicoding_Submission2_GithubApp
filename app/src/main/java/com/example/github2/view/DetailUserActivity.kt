@@ -11,6 +11,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
 import com.example.github2.R
 import com.example.github2.databinding.DetailUserBinding
@@ -18,10 +19,14 @@ import com.example.github2.model.User
 import com.example.github2.viewmodel.DetailViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 class DetailUserActivity : AppCompatActivity() {
-
+    private val TabLayout: TabLayout? = null
 
     companion object {
         const val Data = "User"
@@ -34,8 +39,6 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: DetailUserBinding
-
-
     private lateinit var detailViewModel: DetailViewModel
 
 
@@ -52,17 +55,48 @@ class DetailUserActivity : AppCompatActivity() {
         tabLayoutSetting()
 
         detailViewModel = ViewModelProvider(
-            this,
-            ViewModelProvider.NewInstanceFactory()
+            this
         ).get(DetailViewModel::class.java)
 
         binding.progressBar.visibility = View.VISIBLE
 
-        val dataSentFromUsername = intent.getParcelableExtra<User>(Data)?.username as String
+        // getting data being sent from mainactivity
+        val id = intent.getParcelableExtra<User>(Data)?.id as Int
+        val username = validatingData(intent.getParcelableExtra<User>(Data)?.username as String)
+        val avatar = intent.getParcelableExtra<User>(Data)?.avatar as String
+        // keep favorite sign whether it has been chosen or not
+        var isFavCheck = false
 
-        detailViewModel.setDetailUser(dataSentFromUsername)
+        detailViewModel.setDetailUser(username)
         showLoading(true)
         setData()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val count = detailViewModel.checkUserFav(id)
+            //set to main thread or ui thread as ui cannot be executed in background
+            withContext(Dispatchers.Main) {
+                if (count != null) {
+                    if (count > 0) {
+                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_like)
+                        isFavCheck = true
+                    } else {
+                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_dislike)
+                        isFavCheck = false
+                    }
+                }
+            }
+        }
+
+        binding.btnFavorite.setOnClickListener {
+            isFavCheck = !isFavCheck
+            if (isFavCheck) {
+                detailViewModel.addToFav(id, avatar, username)
+                binding.btnFavorite.setImageResource(R.drawable.ic_favorite_like)
+            } else {
+                detailViewModel.removeFav(id)
+                binding.btnFavorite.setImageResource(R.drawable.ic_favorite_dislike)
+            }
+        }
     }
 
     private fun setData() {
@@ -71,18 +105,21 @@ class DetailUserActivity : AppCompatActivity() {
                 with(binding) {
                     Glide.with(this@DetailUserActivity)
                         .load(userData.avatar)
+                        .transition(GenericTransitionOptions.with(R.anim.fragment_open_enter))
                         .into(imgItemPhoto)
 
-                    tvName.text = validatingData(userData.name as String)
                     tvCompany.text = validatingData(userData.company as String)
                     tvLocation.text = validatingData(userData.location as String)
                     tvFollower.text = validatingData(userData.followers as String)
                     tvFollowing.text = validatingData(userData.following as String)
                     tvRepository.text = validatingData(userData.repository as String)
+                    collapsingToolbar.title = validatingData(userData.name as String)
+                    collapsingToolbar.setExpandedTitleTextColor(getColorStateList(R.color.white))
                 }
             }
         })
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -113,14 +150,13 @@ class DetailUserActivity : AppCompatActivity() {
         TabLayoutMediator(tabs, viewPager) { tab, position ->
             tab.text = resources.getString(TAB[position])
         }.attach()
-    }
 
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
     }
-
 
     private fun showLoading(state: Boolean) {
         val delayTime = 1000L
@@ -136,7 +172,7 @@ class DetailUserActivity : AppCompatActivity() {
     private fun validatingData(data: String): String {
         return if (data != "null") {
             data
-        } else{
+        } else {
             resources.getString(R.string.dataNotSet)
         }
     }

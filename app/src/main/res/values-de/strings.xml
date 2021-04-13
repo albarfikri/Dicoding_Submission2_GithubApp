@@ -12,4 +12,5 @@ folgenden</string>
     <string name="settingChangeLanguage">
 Sprache ändern</string>
     <string name="dataNotSet">Daten nicht gesetzt</string>
+    <string name="loading">Wird geladen…</string>
 </resources>

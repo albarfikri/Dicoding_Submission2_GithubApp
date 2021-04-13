@@ -8,4 +8,5 @@
     <string name="repository">Repositori</string>
     <string name="settingChangeLanguage">Ganti Bahasa</string>
     <string name="dataNotSet">tidak diset</string>
+    <string name="loading">Memuat…</string>
 </resources>

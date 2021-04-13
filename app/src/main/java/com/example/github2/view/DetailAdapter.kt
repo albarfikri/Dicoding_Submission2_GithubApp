@@ -4,10 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.GenericTransitionOptions
 import com.bumptech.glide.Glide
-import com.example.github2.model.User
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.github2.R
 import com.example.github2.databinding.ItemRowsDetailBinding
+import com.example.github2.model.User
+import com.google.android.material.tabs.TabLayout
 
 class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ListViewHolder>() {
 
@@ -49,6 +52,7 @@ class DetailAdapter : RecyclerView.Adapter<DetailAdapter.ListViewHolder>() {
         fun bind(user: User) {
             Glide.with(itemView.context)
                 .load(user.avatar)
+                .transition(GenericTransitionOptions.with(R.anim.fragment_open_enter))
                 .into(binding.imgItemPhoto)
             binding.tvUsername.text = user.username
 

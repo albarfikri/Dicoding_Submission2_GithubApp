@@ -8,4 +8,5 @@
     <string name="repository">Repository</string>
     <string name="settingChangeLanguage">Change Language</string>
     <string name="dataNotSet">Not Set</string>
+    <string name="loading">Loading…</string>
 </resources>

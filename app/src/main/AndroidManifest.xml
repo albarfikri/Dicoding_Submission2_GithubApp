@@ -11,17 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Github2"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.SplashScreen"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".view.FavoriteActivity"/>
+        <activity
+            android:name=".view.SplashScreen"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".view.DetailUserActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".view.DetailUserActivity"></activity>
-        <activity android:name=".view.MainActivity">
-
         </activity>
     </application>
 

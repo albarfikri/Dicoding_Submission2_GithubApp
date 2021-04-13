@@ -7,13 +7,13 @@
     tools:context=".view.UserDetailFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDetail"
+        android:id="@+id/rvDetailFavorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/item_rows_detail" />
+        tools:listitem="@layout/item_rows" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
