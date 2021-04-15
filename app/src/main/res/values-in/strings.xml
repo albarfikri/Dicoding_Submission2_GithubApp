@@ -9,4 +9,7 @@
     <string name="settingChangeLanguage">Ganti Bahasa</string>
     <string name="dataNotSet">tidak diset</string>
     <string name="loading">Memuat…</string>
+    <string name="reminder">Pengingat</string>
+    <string name="appwidget_text">Pengguna Favorite Github</string>
+    <string name="add_widget">Tambah widget</string>
 </resources>

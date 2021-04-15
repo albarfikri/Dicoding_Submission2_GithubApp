@@ -4,6 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <permission
+        android:name="com.example.github2.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission android:name="com.example.github2.WRITE_DATABASE" />
+
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
@@ -11,14 +16,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Github2"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.FavoriteActivity"/>
+        <service
+            android:name=".view.widget.StackWidgetService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <receiver android:name=".view.widget.ImageBannerWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/image_banner_widget_info" />
+        </receiver>
+
+        <provider
+            android:name=".provider.UserGithubContentProvider"
+            android:authorities="com.example.github2"
+            android:enabled="true"
+            android:exported="true"
+            android:readPermission="com.example.github2.READ_DATABASE" />
+
+        <receiver
+            android:name=".receiver.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".view.activity.ReminderActivity" />
+        <activity android:name=".view.activity.FavoriteActivity" />
         <activity
-            android:name=".view.SplashScreen"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity
-            android:name=".view.DetailUserActivity"
+            android:name=".view.activity.SplashScreenActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".view.MainActivity">
+        <activity
+            android:name=".view.activity.DetailUserActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -13,4 +13,7 @@ folgenden</string>
 Sprache ändern</string>
     <string name="dataNotSet">Daten nicht gesetzt</string>
     <string name="loading">Wird geladen…</string>
+    <string name="reminder">Erinnerung</string>
+    <string name="appwidget_text">Lieblingsbenutzer Github</string>
+    <string name="add_widget">Widget hinzufügen</string>
 </resources>

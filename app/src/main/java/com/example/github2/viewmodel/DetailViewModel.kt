@@ -38,7 +38,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     // using coroutine as we use suspend that working in background
     fun addToFav(id: Int, avatar: String, username: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            var user = UserFavorite(
+            val user = UserFavorite(
                 id,
                 avatar,
                 username,
@@ -99,7 +99,13 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
                     responseBody: ByteArray?,
                     error: Throwable?
                 ) {
-                    Log.d("Exception", error?.message.toString())
+                    val errorMessage = when (statusCode) {
+                        401 -> "$statusCode : Bad Request"
+                        403 -> "$statusCode : Forbidden"
+                        404 -> "$statusCode : Not Found"
+                        else -> "$statusCode : ${error?.message}"
+                    }
+                    Log.d("Status Code", "$statusCode $errorMessage")
                 }
             })
     }

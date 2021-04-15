@@ -9,4 +9,7 @@
     <string name="settingChangeLanguage">Change Language</string>
     <string name="dataNotSet">Not Set</string>
     <string name="loading">Loading…</string>
+    <string name="reminder">Reminder</string>
+    <string name="appwidget_text">Favorite User Github</string>
+    <string name="add_widget">Add widget</string>
 </resources>

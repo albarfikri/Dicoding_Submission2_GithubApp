@@ -11,4 +11,7 @@ changer de langue</string>
     <string name="dataNotSet">
 données non définies</string>
     <string name="loading">Chargement en cours…</string>
+    <string name="reminder">rappel</string>
+    <string name="appwidget_text">Utilisateur préféré Github</string>
+    <string name="add_widget">Ajouter un widget</string>
 </resources>

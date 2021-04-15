@@ -13,7 +13,7 @@ data class User(
     var repository: String? = null,
     var company: String? = null,
     var followers: String? = null,
-    var following: String? = null
+    var following: String? = null,
 ) : Parcelable
 
 

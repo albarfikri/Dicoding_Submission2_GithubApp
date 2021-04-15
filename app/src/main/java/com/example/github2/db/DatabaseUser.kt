@@ -12,6 +12,7 @@ import androidx.room.RoomDatabase
 
 abstract class DatabaseUser : RoomDatabase() {
     companion object {
+
         var INSTANCE: DatabaseUser? = null
 
         fun getUserDatabase(context: Context): DatabaseUser? {

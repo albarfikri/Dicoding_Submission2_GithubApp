@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <group android:menuCategory="container">
         <item
             android:id="@+id/favorite"
@@ -9,14 +10,23 @@
             android:title="@string/loading"
             app:showAsAction="ifRoom" />
         <item
-            android:id="@+id/changeLanguage"
-            android:icon="@drawable/ic_language"
-            android:title="@string/settingChangeLanguage"
-            app:showAsAction="ifRoom" />
-
-        <item
-            android:id="@+id/list"
-            android:title="@string/points_menu1"
-            app:showAsAction="never" />
+            android:id="@+id/action_m"
+            android:icon="@drawable/ic_menu"
+            android:title="menu"
+            app:showAsAction="always">
+            <menu>
+                <item
+                    android:id="@+id/setting"
+                    android:icon="@drawable/notif"
+                    android:title="@string/reminder"
+                    app:showAsAction="never" />
+                <item
+                    android:id="@+id/changeLanguage"
+                    android:icon="@drawable/language"
+                    android:title="@string/settingChangeLanguage"
+                    app:showAsAction="never" />
+            </menu>
+        </item>
     </group>
+
 </menu>

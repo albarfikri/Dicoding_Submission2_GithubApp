@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".view.UserDetailFragment">
+    tools:context=".view.fragment.UserDetailFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDetailFavorite"
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="#000000"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,32 +31,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="16dp"
+            android:padding="10dp"
             android:visibility="gone"
-            app:SpinKit_Color="@color/white" />
-
+            app:SpinKit_Color="@color/white"
+            app:SpinKit_Style="ThreeBounce" />
     </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/dataNotFound"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="#000000"
-        app:cardCornerRadius="10dp"
+        android:tooltipText="@string/app_name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/dataNotFound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="6dp"
-            android:text="@string/dataNotFound"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.403"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        app:lottie_repeatCount="100"
+        app:lottie_rawRes="@raw/datanotfound"
+        app:lottie_speed="1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

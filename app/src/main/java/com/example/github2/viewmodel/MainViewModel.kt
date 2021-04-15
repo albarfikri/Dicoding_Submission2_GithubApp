@@ -76,7 +76,13 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray?,
                 error: Throwable?
             ) {
-                Log.d("onFailure", error?.message.toString())
+                val errorMessage = when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Log.d("Status Code", "$statusCode $errorMessage")
             }
         })
     }
@@ -130,7 +136,13 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray?,
                 error: Throwable?
             ) {
-                Log.d("onFailure", error?.message.toString())
+                val errorMessage = when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Log.d("Status Code", "$statusCode $errorMessage")
             }
 
         })
@@ -175,7 +187,13 @@ class MainViewModel : ViewModel() {
                 responseBody: ByteArray?,
                 error: Throwable?
             ) {
-                Log.d("onFailure", error?.message.toString())
+                val errorMessage = when (statusCode) {
+                    401 -> "$statusCode : Bad Request"
+                    403 -> "$statusCode : Forbidden"
+                    404 -> "$statusCode : Not Found"
+                    else -> "$statusCode : ${error?.message}"
+                }
+                Log.d("Status Code", "$statusCode $errorMessage")
             }
         })
     }
