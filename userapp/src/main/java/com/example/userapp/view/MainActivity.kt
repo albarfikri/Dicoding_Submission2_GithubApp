@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
         })
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
         supportActionBar?.title = "User Github App"
     }
 

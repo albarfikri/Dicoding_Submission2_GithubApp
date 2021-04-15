@@ -3,17 +3,17 @@ package com.example.github2.view.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.github2.model.User
-import com.example.github2.viewmodel.MainViewModel
 import com.example.github2.databinding.FragmentUserDetailBinding
+import com.example.github2.model.User
 import com.example.github2.view.activity.DetailUserActivity
 import com.example.github2.view.adapter.DetailAdapter
+import com.example.github2.viewmodel.MainViewModel
 
 
 @Suppress("DEPRECATION")
@@ -53,7 +53,6 @@ class UserDetailFragment : Fragment() {
         ).get(MainViewModel::class.java)
 
         recyclerView()
-
         val username = arguments?.getString(Username)
         val type = arguments?.getString(TypeUser)
 
@@ -77,7 +76,6 @@ class UserDetailFragment : Fragment() {
                 val moveToDetail = Intent(context, DetailUserActivity::class.java)
                 moveToDetail.putExtra(DetailUserActivity.Data, data)
                 startActivity(moveToDetail)
-
             }
         })
     }

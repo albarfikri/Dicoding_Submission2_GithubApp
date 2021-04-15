@@ -12,4 +12,5 @@
     <string name="reminder">Pengingat</string>
     <string name="appwidget_text">Pengguna Favorite Github</string>
     <string name="add_widget">Tambah widget</string>
+    <string name="reminder_at_9_00_am">Reminder at 9.00 AM</string>
 </resources>

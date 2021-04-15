@@ -27,7 +27,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginEnd="60dp"
         android:gravity="center_vertical"
-        android:text="Reminder at 9.00 AM"
+        android:text="@string/reminder_at_9_00_am"
         android:textSize="16sp"
         android:layout_marginStart="16dp"
         app:layout_constraintEnd_toStartOf="@+id/switch1"

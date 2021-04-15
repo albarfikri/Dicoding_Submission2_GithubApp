@@ -12,7 +12,7 @@
         <item
             android:id="@+id/action_m"
             android:icon="@drawable/ic_menu"
-            android:title="menu"
+            android:title="@string/loading"
             app:showAsAction="always">
             <menu>
                 <item
@@ -28,5 +28,4 @@
             </menu>
         </item>
     </group>
-
 </menu>

@@ -14,4 +14,5 @@ données non définies</string>
     <string name="reminder">rappel</string>
     <string name="appwidget_text">Utilisateur préféré Github</string>
     <string name="add_widget">Ajouter un widget</string>
+    <string name="reminder_at_9_00_am">Reminder at 9.00 AM</string>
 </resources>

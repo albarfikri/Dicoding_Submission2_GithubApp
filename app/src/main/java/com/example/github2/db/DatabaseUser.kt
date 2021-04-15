@@ -26,6 +26,5 @@ abstract class DatabaseUser : RoomDatabase() {
             return INSTANCE
         }
     }
-    // Creating abstract function for DAO
     abstract fun userFavDao(): UserFavoriteDao
 }

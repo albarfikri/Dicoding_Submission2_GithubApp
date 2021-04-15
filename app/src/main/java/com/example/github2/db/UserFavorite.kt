@@ -10,6 +10,6 @@ import kotlinx.parcelize.Parcelize
 data class UserFavorite(
     @PrimaryKey
     val id: Int,
-    val avatar:String,
+    val avatar: String,
     val username: String
 ) : Parcelable

@@ -12,7 +12,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 class MainViewModel : ViewModel() {
-
     private val listUser = MutableLiveData<ArrayList<User>>()
     private val searchLiveData = MutableLiveData<String>()
     private val availabilityState = MutableLiveData<Boolean>()
@@ -54,6 +53,7 @@ class MainViewModel : ViewModel() {
                         for (i in 0 until responseArray.length()) {
                             val item = responseArray.getJSONObject(i)
                             val user = User()
+                            user.id = item.getInt("id")
                             user.username = item.getString("login")
                             user.avatar = item.getString("avatar_url")
                             listItems.add(user)

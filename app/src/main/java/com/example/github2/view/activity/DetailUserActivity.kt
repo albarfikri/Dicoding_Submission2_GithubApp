@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -28,8 +29,6 @@ import kotlinx.coroutines.withContext
 
 @Suppress("DEPRECATION")
 class DetailUserActivity : AppCompatActivity() {
-    private val TabLayout: TabLayout? = null
-
     companion object {
         const val Data = "User"
 
@@ -62,11 +61,11 @@ class DetailUserActivity : AppCompatActivity() {
 
         binding.progressBar.visibility = View.VISIBLE
 
-        // getting data being sent from mainactivity
         val id = intent.getParcelableExtra<User>(Data)?.id as Int
+        Log.d("counting", id.toString())
         val username = validatingData(intent.getParcelableExtra<User>(Data)?.username as String)
         val avatar = intent.getParcelableExtra<User>(Data)?.avatar as String
-        // keep favorite sign whether it has been chosen or not
+
         var isFavCheck = false
 
         detailViewModel.setDetailUser(username)
@@ -75,8 +74,8 @@ class DetailUserActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val count = detailViewModel.checkUserFav(id)
-            //set to main thread or ui thread as ui cannot be executed in background
             withContext(Dispatchers.Main) {
+                Log.d("counting",count.toString())
                 if (count != null) {
                     if (count > 0) {
                         binding.btnFavorite.setImageResource(R.drawable.ic_favorite_like)
@@ -124,7 +123,6 @@ class DetailUserActivity : AppCompatActivity() {
         })
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.option_menu, menu)
@@ -163,13 +161,15 @@ class DetailUserActivity : AppCompatActivity() {
     }
 
     private fun showLoading(state: Boolean) {
-        val delayTime = 1000L
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            Handler(mainLooper).postDelayed({
-                binding.progressBar.visibility = View.GONE
-            }, delayTime)
+        binding.apply {
+            val delayTime = 1000L
+            if (state) {
+                progressBar.visibility = View.VISIBLE
+            } else {
+                Handler(mainLooper).postDelayed({
+                    progressBar.visibility = View.GONE
+                }, delayTime)
+            }
         }
     }
 

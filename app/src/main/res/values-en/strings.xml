@@ -12,4 +12,5 @@
     <string name="reminder">Reminder</string>
     <string name="appwidget_text">Favorite User Github</string>
     <string name="add_widget">Add widget</string>
+    <string name="reminder_at_9_00_am">Reminder at 9.00 AM</string>
 </resources>

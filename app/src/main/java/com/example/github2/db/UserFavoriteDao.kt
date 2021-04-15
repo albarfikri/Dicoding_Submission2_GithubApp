@@ -8,7 +8,7 @@ import androidx.room.Query
 
 @Dao
 interface UserFavoriteDao {
-    // Using suspend as it will be executed in background
+
     @Insert
     suspend fun addIntoFavorite(favorite: UserFavorite)
 

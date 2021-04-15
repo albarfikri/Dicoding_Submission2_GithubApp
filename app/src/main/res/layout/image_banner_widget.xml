@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white"
+    android:background="@color/black"
     android:orientation="vertical"
     android:padding="@dimen/widget_margin">
 
@@ -15,14 +14,14 @@
         android:padding="4dp"
         android:contentDescription="@string/app_name"
         android:text="@string/app_name"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="24sp"
         android:textStyle="bold|italic"/>
 
     <ListView
         android:id="@+id/listwidget"
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent"/>
-
 </LinearLayout>
 

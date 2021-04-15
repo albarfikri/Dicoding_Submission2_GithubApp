@@ -19,8 +19,6 @@ import org.json.JSONObject
 
 class DetailViewModel(application: Application) : AndroidViewModel(application) {
     private val detailUser = MutableLiveData<User>()
-
-    // Start Favorite Part
     private var userFavDao: UserFavoriteDao? = null
     private var userDb: DatabaseUser? = null
 
@@ -35,7 +33,6 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    // using coroutine as we use suspend that working in background
     fun addToFav(id: Int, avatar: String, username: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val user = UserFavorite(
@@ -48,10 +45,7 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     suspend fun checkUserFav(id: Int) = userFavDao?.checkUserFav(id)
-    // End Favorite Part
 
-
-    // getting data for favorite list
     fun getFavUser(): LiveData<List<UserFavorite>>? = userFavDao?.getUserFav()
 
     fun getDetailUser(): LiveData<User> = detailUser

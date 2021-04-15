@@ -14,6 +14,7 @@ data class User(
     var company: String? = null,
     var followers: String? = null,
     var following: String? = null,
+    var reminded: Boolean = false
 ) : Parcelable
 
 

@@ -34,9 +34,7 @@ class UserAdapter() :
         holder.bind(mData[position])
     }
 
-    override fun getItemCount(): Int {
-        return mData.size
-    }
+    override fun getItemCount(): Int = mData.size
 
     inner class ListViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {

@@ -1,7 +1,7 @@
 package com.example.github2.helper
 
 import android.content.Context
-import com.example.github2.model.RepeatingAlarm
+import com.example.github2.model.User
 
 internal class AlarmRepeatingPreference(context: Context) {
     companion object {
@@ -11,16 +11,15 @@ internal class AlarmRepeatingPreference(context: Context) {
 
     private val preferences = context.getSharedPreferences(pref_name, Context.MODE_PRIVATE)
 
-    fun setValue(value: RepeatingAlarm) {
-        val editor = preferences.edit()
-        editor.putBoolean(isRepeatingAlarmPref, value.reminded)
-        editor.apply()
-    }
-
-    fun getValue(): RepeatingAlarm {
-        val model = RepeatingAlarm()
+    fun getValue(): User {
+        val model = User()
         model.reminded = preferences.getBoolean(isRepeatingAlarmPref, false)
         return model
     }
 
+    fun setValue(value: User) {
+        val editor = preferences.edit()
+        editor.putBoolean(isRepeatingAlarmPref, value.reminded)
+        editor.apply()
+    }
 }

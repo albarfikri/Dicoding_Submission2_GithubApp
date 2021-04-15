@@ -11,11 +11,12 @@ import com.example.userapp.model.User
 
 class DetailViewModel(application: Application) : AndroidViewModel(application) {
 
-    // Start Favorite Part
     private val listFav = MutableLiveData<ArrayList<User>>()
     private val loadingStates = MutableLiveData<Boolean>()
 
     fun getLoadingState(): LiveData<Boolean> = loadingStates
+
+    fun getFavUser(): LiveData<ArrayList<User>> = listFav
 
     fun setUserFav(context: Context) {
         val cursor = context.contentResolver.query(
@@ -26,13 +27,14 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
             null
         )
         val convertedFavList = MappingHelper.mapCursorToArrayList(cursor)
-        if (convertedFavList.count() > 0) {
-            listFav.postValue(convertedFavList)
-            loadingStates.postValue(true)
-        }else{
-            listFav.postValue(convertedFavList)
-            loadingStates.postValue(false)
+        loadingStates.apply {
+            if (convertedFavList.count() > 0) {
+                listFav.postValue(convertedFavList)
+                postValue(true)
+            } else {
+                listFav.postValue(convertedFavList)
+                postValue(false)
+            }
         }
     }
-    fun getFavUser(): LiveData<ArrayList<User>> = listFav
 }

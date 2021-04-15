@@ -19,7 +19,6 @@ internal class StackRemoteViewsFactory(private val mContext: Context) :
 
     override fun onDataSetChanged() {
         list = userDao.getfavWidget()
-
     }
 
     override fun onDestroy() {}

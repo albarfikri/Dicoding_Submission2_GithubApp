@@ -3,7 +3,6 @@ package com.example.github2.view.activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -40,8 +39,10 @@ class FavoriteActivity : AppCompatActivity() {
             }
         })
 
-        supportActionBar?.title = "List Favorite User"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.apply {
+            title = "List Favorite User"
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -50,13 +51,14 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun dataNotFound(state: Boolean) {
-        if (state) {
-            binding.dataNotFound.visibility = View.VISIBLE
-        } else {
-            binding.dataNotFound.visibility = View.GONE
+        binding.apply {
+            if (state) {
+                dataNotFound.visibility = View.VISIBLE
+            } else {
+                dataNotFound.visibility = View.GONE
+            }
         }
     }
-
 
     private fun convertList(user: List<UserFavorite>): ArrayList<User> {
         val listUsers = ArrayList<User>()
@@ -69,17 +71,6 @@ class FavoriteActivity : AppCompatActivity() {
             listUsers.add(userMapped)
         }
         return listUsers
-    }
-
-    private fun showLoading(state: Boolean) {
-        val delayTime = 1000L
-        if (state) {
-            binding.progressBar.visibility = View.VISIBLE
-        } else {
-            Handler(mainLooper).postDelayed({
-                binding.progressBar.visibility = View.GONE
-            }, delayTime)
-        }
     }
 
     private fun recyclerView() {

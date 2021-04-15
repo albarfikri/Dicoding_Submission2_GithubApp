@@ -15,29 +15,21 @@ class UserGithubContentProvider : ContentProvider() {
         const val TABLE_NAME = "user_fav"
         const val ID_GITHUB_USER = 1
         val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
-
     }
 
     init {
         sUriMatcher.addURI(AUTHORITY, TABLE_NAME, ID_GITHUB_USER)
     }
 
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
-        return 0
-    }
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int = 0
 
-    override fun getType(uri: Uri): String? {
-        return null
-    }
+    override fun getType(uri: Uri): String? = null
 
-    override fun insert(uri: Uri, values: ContentValues?): Uri? {
-        return null
-    }
+    override fun insert(uri: Uri, values: ContentValues?): Uri? = null
 
     private lateinit var userFavDao: UserFavoriteDao
 
     override fun onCreate(): Boolean {
-        // if not null
         userFavDao = context?.let { Contex ->
             DatabaseUser.getUserDatabase(Contex)?.userFavDao()
         }!!
@@ -66,7 +58,5 @@ class UserGithubContentProvider : ContentProvider() {
     override fun update(
         uri: Uri, values: ContentValues?, selection: String?,
         selectionArgs: Array<String>?
-    ): Int {
-        return 0
-    }
+    ): Int = 0
 }
