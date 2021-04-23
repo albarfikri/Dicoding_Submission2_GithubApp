@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.github2.BuildConfig
 import com.example.github2.db.DatabaseUser
 import com.example.github2.db.UserFavorite
 import com.example.github2.db.UserFavoriteDao
@@ -16,7 +17,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-
+// next time use AndroidNetworking or Retrofit
 class DetailViewModel(application: Application) : AndroidViewModel(application) {
     private val detailUser = MutableLiveData<User>()
     private var userFavDao: UserFavoriteDao? = null
@@ -26,6 +27,13 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
         userDb = DatabaseUser.getUserDatabase(application)
         userFavDao = userDb?.userFavDao()
     }
+
+
+    suspend fun checkUserFav(id: Int) = userFavDao?.checkUserFav(id)
+
+    fun getFavUser(): LiveData<List<UserFavorite>>? = userFavDao?.getUserFav()
+
+    fun getDetailUser(): LiveData<User> = detailUser
 
     fun removeFav(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -44,16 +52,10 @@ class DetailViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    suspend fun checkUserFav(id: Int) = userFavDao?.checkUserFav(id)
-
-    fun getFavUser(): LiveData<List<UserFavorite>>? = userFavDao?.getUserFav()
-
-    fun getDetailUser(): LiveData<User> = detailUser
-
     fun setDetailUser(username: String) {
         val link = "${MainViewModel.url}/users/$username"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "")
+        client.addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
 
         client.addHeader("User-Agent", "request")
         client.get(

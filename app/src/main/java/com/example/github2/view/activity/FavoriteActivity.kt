@@ -27,17 +27,8 @@ class FavoriteActivity : AppCompatActivity() {
         recyclerView()
 
         viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-        viewModel.getFavUser()?.observe(this, {
-            if (it != null) {
-                val list = convertList(it)
-                adapter.setData(list)
-                if (adapter.itemCount > 0) {
-                    dataNotFound(false)
-                } else {
-                    dataNotFound(true)
-                }
-            }
-        })
+
+        getFavUser()
 
         supportActionBar?.apply {
             title = "List Favorite User"
@@ -60,6 +51,20 @@ class FavoriteActivity : AppCompatActivity() {
         }
     }
 
+    private fun getFavUser() {
+        viewModel.getFavUser()?.observe(this, {
+            if (it != null) {
+                val list = convertList(it)
+                adapter.setData(list)
+                if (adapter.itemCount > 0) {
+                    dataNotFound(false)
+                } else {
+                    dataNotFound(true)
+                }
+            }
+        })
+    }
+
     private fun convertList(user: List<UserFavorite>): ArrayList<User> {
         val listUsers = ArrayList<User>()
         for (data in user) {
@@ -75,7 +80,7 @@ class FavoriteActivity : AppCompatActivity() {
 
     private fun recyclerView() {
         val orientation = resources.configuration.orientation
-        adapter = UserAdapter()
+        adapter = this.let { UserAdapter(it) }
         adapter.notifyDataSetChanged()
         binding.rvDetailFavorite.setHasFixedSize(true)
         if (orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {

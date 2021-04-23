@@ -22,15 +22,7 @@ class ReminderActivity : AppCompatActivity() {
 
         alarmReceiver = AlarmReceiver()
 
-        binding.switch1.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                saveReminder(true)
-                alarmReceiver.setRepeatingAlarm(this, "Repeating Alarm", "09:00")
-            } else {
-                saveReminder(false)
-                alarmReceiver.alarmCancellation(this)
-            }
-        }
+        ifButtonCheckedChanged()
 
         supportActionBar?.apply {
             title = "Reminder"
@@ -45,6 +37,19 @@ class ReminderActivity : AppCompatActivity() {
         alarmPreference.setValue(alarmReminder)
 
     }
+
+    private fun ifButtonCheckedChanged() {
+        binding.switch1.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                saveReminder(true)
+                alarmReceiver.setRepeatingAlarm(this, "Repeating Alarm", "09:00")
+            } else {
+                saveReminder(false)
+                alarmReceiver.alarmCancellation(this)
+            }
+        }
+    }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

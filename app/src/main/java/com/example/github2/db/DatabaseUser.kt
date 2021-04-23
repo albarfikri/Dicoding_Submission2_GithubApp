@@ -12,8 +12,8 @@ import androidx.room.RoomDatabase
 
 abstract class DatabaseUser : RoomDatabase() {
     companion object {
-
-        var INSTANCE: DatabaseUser? = null
+        // gunakan private pada variable pada kelas yang sama
+        private var INSTANCE: DatabaseUser? = null
 
         fun getUserDatabase(context: Context): DatabaseUser? {
             if (INSTANCE == null) {

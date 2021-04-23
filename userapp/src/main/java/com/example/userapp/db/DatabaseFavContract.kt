@@ -4,19 +4,19 @@ import android.net.Uri
 import android.provider.BaseColumns
 
 object DatabaseFavContract {
-    const val AUTHORITY = "com.example.github2"
-    const val SCHEME = "content"
+    const val authority = "com.example.github2"
+    const val scheme = "content"
 
     internal class UserFavColumns : BaseColumns {
         companion object {
-            private const val TABLE_NAME = "user_fav"
-            const val _ID = "id"
-            const val AVATAR = "avatar"
-            const val USERNAME = "username"
+            private const val tableName = "user_fav"
+            const val _id = "id"
+            const val avatar = "avatar"
+            const val username = "username"
 
-            val CONTENT_URI = Uri.Builder().scheme(SCHEME)
-                .authority(AUTHORITY)
-                .appendPath(TABLE_NAME)
+            val CONTENT_URI = Uri.Builder().scheme(scheme)
+                .authority(authority)
+                .appendPath(tableName)
                 .build()
         }
     }

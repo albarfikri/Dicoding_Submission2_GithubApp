@@ -9,11 +9,11 @@ object MappingHelper {
         val userFavList = ArrayList<User>()
         cursor?.apply {
             while (moveToNext()) {
-                val id = getInt(getColumnIndexOrThrow(DatabaseFavContract.UserFavColumns._ID))
+                val id = getInt(getColumnIndexOrThrow(DatabaseFavContract.UserFavColumns._id))
                 val avatar =
-                    getString(getColumnIndexOrThrow(DatabaseFavContract.UserFavColumns.AVATAR))
+                    getString(getColumnIndexOrThrow(DatabaseFavContract.UserFavColumns.avatar))
                 val username =
-                    getString(getColumnIndexOrThrow(DatabaseFavContract.UserFavColumns.USERNAME))
+                    getString(getColumnIndexOrThrow(DatabaseFavContract.UserFavColumns.username))
                 userFavList.add(User(id, avatar, username))
             }
         }

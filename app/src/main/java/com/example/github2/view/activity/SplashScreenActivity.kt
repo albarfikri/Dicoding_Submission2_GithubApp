@@ -7,26 +7,23 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.example.github2.databinding.ActivitySplashScreenBinding
 
-@Suppress("DEPRECATION")
 class SplashScreenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashScreenBinding
-    private var delaySplashScreen: Long = 6000
+    private val delaySplashScreen: Long = 6000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
-
-        Handler(mainLooper).postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        }, delaySplashScreen)
+        with(binding) {
+            animationView.alpha = 0.5f
+            animationView.animate().setDuration(delaySplashScreen).alpha(1f).withEndAction {
+                val intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
+                startActivity(intent)
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+            }
+        }
     }
 }

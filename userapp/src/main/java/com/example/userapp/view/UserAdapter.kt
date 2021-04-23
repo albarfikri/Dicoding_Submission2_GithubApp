@@ -10,7 +10,7 @@ import com.example.userapp.R
 import com.example.userapp.databinding.ItemRowsBinding
 import com.example.userapp.model.User
 
-class UserAdapter() :
+class UserAdapter:
     RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
     private val mData = ArrayList<User>()

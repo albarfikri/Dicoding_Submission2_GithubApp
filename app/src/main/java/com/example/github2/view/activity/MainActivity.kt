@@ -19,7 +19,6 @@ import com.example.github2.model.User
 import com.example.github2.view.adapter.UserAdapter
 import com.example.github2.viewmodel.MainViewModel
 
-@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -46,7 +45,6 @@ class MainActivity : AppCompatActivity() {
                 setData()
             }
         })
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun recyclerView() {
         val orientation = resources.configuration.orientation
-        adapter = UserAdapter()
+        adapter = this.let { UserAdapter(it) }
         adapter.notifyDataSetChanged()
         binding.rvUser.setHasFixedSize(true)
         if (orientation == SCREEN_ORIENTATION_PORTRAIT) {

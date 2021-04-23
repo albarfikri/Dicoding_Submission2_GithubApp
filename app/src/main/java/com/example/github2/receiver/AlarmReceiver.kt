@@ -20,13 +20,13 @@ import java.util.*
 class AlarmReceiver : BroadcastReceiver() {
 
     companion object {
-        private const val EXTRA_TYPE = "type"
-        private const val TIME_FORMAT = "HH:mm"
-        private const val EXTRA_MESSAGE = "message"
-        private const val CHANNEL_ID = "channel_01"
-        private const val ID_REPEATING = 101
-        private const val NOTIFICATION_ID = 1
-        private const val CHANNEL_NAME = "repeating_alarm"
+        private const val extraType = "type"
+        private const val timeFormat = "HH:mm"
+        private const val extraMessage = "message"
+        private const val channelId = "channel_01"
+        private const val idRepeating = 101
+        private const val notificationId = 1
+        private const val channelName = "repeating_alarm"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -34,13 +34,9 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     fun setRepeatingAlarm(context: Context, type: String, time: String) {
-        if (isDateInvalid(time, TIME_FORMAT)) return
+        if (isDateInvalid(time, timeFormat)) return
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val intent = Intent(context, AlarmReceiver::class.java)
-        intent.putExtra(EXTRA_MESSAGE, "GitHub Reminder")
-        intent.putExtra(EXTRA_TYPE, type)
 
         val timeArray = time.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val calendar = Calendar.getInstance()
@@ -48,7 +44,11 @@ class AlarmReceiver : BroadcastReceiver() {
         calendar.set(Calendar.MINUTE, Integer.parseInt(timeArray[1]))
         calendar.set(Calendar.SECOND, 0)
 
-        val pendingIntent = PendingIntent.getBroadcast(context, ID_REPEATING, intent, 0)
+        val intent = Intent(context, AlarmReceiver::class.java)
+        intent.putExtra(extraMessage, "GitHub Reminder")
+        intent.putExtra(extraType, type)
+
+        val pendingIntent = PendingIntent.getBroadcast(context, idRepeating, intent, 0)
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
@@ -68,7 +68,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
-        val mBuilder = NotificationCompat.Builder(context, CHANNEL_ID)
+        val mBuilder = NotificationCompat.Builder(context, channelId)
             .setContentIntent(pendingIntent)
             .setSmallIcon(R.drawable.notifisalerting)
             .setContentTitle("GitHub")
@@ -81,25 +81,25 @@ class AlarmReceiver : BroadcastReceiver() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
+                channelId,
+                channelName,
                 NotificationManager.IMPORTANCE_DEFAULT
             )
-            channel.description = CHANNEL_NAME
+            channel.description = channelName
             channel.enableVibration(true)
             channel.vibrationPattern = longArrayOf(1000, 1000, 1000, 1000, 1000)
-            mBuilder.setChannelId(CHANNEL_ID)
+            mBuilder.setChannelId(channelId) 
             mNotificationManagerCompat.createNotificationChannel(channel)
         }
 
         val notification = mBuilder.build()
-        mNotificationManagerCompat.notify(NOTIFICATION_ID, notification)
+        mNotificationManagerCompat.notify(notificationId, notification)
     }
 
     fun alarmCancellation(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, AlarmReceiver::class.java)
-        val requestCode = ID_REPEATING
+        val requestCode = idRepeating
         val pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0)
         pendingIntent.cancel()
         alarmManager.cancel(pendingIntent)

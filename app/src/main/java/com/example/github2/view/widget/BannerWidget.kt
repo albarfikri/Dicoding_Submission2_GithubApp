@@ -10,10 +10,10 @@ import androidx.core.net.toUri
 import com.example.github2.R
 
 
-class ImageBannerWidget : AppWidgetProvider() {
+class BannerWidget : AppWidgetProvider() {
 
     companion object {
-        private const val TOAST_ACTION = "com.example.github2.TOAST_ACTION"
+        private const val toastAction = "com.example.github2.toastAction"
 
         private fun updateAppWidget(
             context: Context,
@@ -27,7 +27,7 @@ class ImageBannerWidget : AppWidgetProvider() {
             val views = RemoteViews(context.packageName, R.layout.image_banner_widget)
             views.setRemoteAdapter(R.id.listwidget, intent)
             val toastIntent = Intent(context, StackWidgetService::class.java)
-            toastIntent.action = TOAST_ACTION
+            toastIntent.action = toastAction
             toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
 
             intent.data = intent.toUri(Intent.URI_INTENT_SCHEME).toUri()

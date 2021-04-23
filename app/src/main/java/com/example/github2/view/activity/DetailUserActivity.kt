@@ -2,9 +2,7 @@ package com.example.github2.view.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,7 +25,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-@Suppress("DEPRECATION")
 class DetailUserActivity : AppCompatActivity() {
     companion object {
         const val Data = "User"
@@ -62,11 +59,10 @@ class DetailUserActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
 
         val id = intent.getParcelableExtra<User>(Data)?.id as Int
-        Log.d("counting", id.toString())
         val username = validatingData(intent.getParcelableExtra<User>(Data)?.username as String)
         val avatar = intent.getParcelableExtra<User>(Data)?.avatar as String
 
-        var isFavCheck = false
+        var isFavChecked = false
 
         detailViewModel.setDetailUser(username)
         showLoading(true)
@@ -75,29 +71,32 @@ class DetailUserActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val count = detailViewModel.checkUserFav(id)
             withContext(Dispatchers.Main) {
-                Log.d("counting",count.toString())
-                if (count != null) {
-                    if (count > 0) {
-                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_like)
-                        isFavCheck = true
-                    } else {
-                        binding.btnFavorite.setImageResource(R.drawable.ic_favorite_dislike)
-                        isFavCheck = false
+                binding.apply {
+                    if (count != null) {
+                        if (count > 0) {
+                            btnFavorite.setImageResource(R.drawable.ic_favorite_like)
+                            isFavChecked = true
+                        } else {
+                            btnFavorite.setImageResource(R.drawable.ic_favorite_dislike)
+                            isFavChecked = false
+                        }
                     }
                 }
             }
         }
 
         binding.btnFavorite.setOnClickListener {
-            isFavCheck = !isFavCheck
-            if (isFavCheck) {
-                detailViewModel.addToFav(id, avatar, username)
-                binding.btnFavorite.setImageResource(R.drawable.ic_favorite_like)
-                Snackbar.make(it, "Favorite user is saved !", Snackbar.LENGTH_SHORT).show()
-            } else {
-                detailViewModel.removeFav(id)
-                binding.btnFavorite.setImageResource(R.drawable.ic_favorite_dislike)
-                Snackbar.make(it, "Favorite user is removed !", Snackbar.LENGTH_SHORT).show()
+            binding.apply {
+                isFavChecked = !isFavChecked
+                if (isFavChecked) {
+                    detailViewModel.addToFav(id, avatar, username)
+                    btnFavorite.setImageResource(R.drawable.ic_favorite_like)
+                    Snackbar.make(it, "Favorite user is saved !", Snackbar.LENGTH_SHORT).show()
+                } else {
+                    detailViewModel.removeFav(id)
+                    btnFavorite.setImageResource(R.drawable.ic_favorite_dislike)
+                    Snackbar.make(it, "Favorite user is removed !", Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -162,13 +161,10 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun showLoading(state: Boolean) {
         binding.apply {
-            val delayTime = 1000L
             if (state) {
                 progressBar.visibility = View.VISIBLE
             } else {
-                Handler(mainLooper).postDelayed({
-                    progressBar.visibility = View.GONE
-                }, delayTime)
+                progressBar.visibility = View.GONE
             }
         }
     }

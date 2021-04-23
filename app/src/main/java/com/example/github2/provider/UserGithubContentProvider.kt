@@ -11,14 +11,14 @@ import com.example.github2.db.UserFavoriteDao
 class UserGithubContentProvider : ContentProvider() {
 
     companion object {
-        const val AUTHORITY = "com.example.github2"
-        const val TABLE_NAME = "user_fav"
-        const val ID_GITHUB_USER = 1
+        const val authority = "com.example.github2"
+        const val tableName = "user_fav"
+        const val idGithubUser = 1
         val sUriMatcher = UriMatcher(UriMatcher.NO_MATCH)
     }
 
     init {
-        sUriMatcher.addURI(AUTHORITY, TABLE_NAME, ID_GITHUB_USER)
+        sUriMatcher.addURI(authority, tableName, idGithubUser)
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int = 0
@@ -42,7 +42,7 @@ class UserGithubContentProvider : ContentProvider() {
     ): Cursor? {
         val cursor: Cursor?
         when (sUriMatcher.match(uri)) {
-            ID_GITHUB_USER -> {
+            idGithubUser -> {
                 cursor = userFavDao.getUserCpAll()
                 if (context != null) {
                     cursor.setNotificationUri(context?.contentResolver, uri)

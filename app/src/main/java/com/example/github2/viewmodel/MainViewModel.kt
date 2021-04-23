@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.github2.BuildConfig
 import com.example.github2.model.User
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.AsyncHttpResponseHandler
@@ -22,7 +23,6 @@ class MainViewModel : ViewModel() {
 
     fun getListUser(): LiveData<ArrayList<User>> = listUser
 
-
     fun getSearchLiveData(): LiveData<String> = searchLiveData
 
     fun getAvailabilityState(): LiveData<Boolean> = availabilityState
@@ -36,7 +36,7 @@ class MainViewModel : ViewModel() {
 
         val link = "$url/users/$username/$typeUser"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "")
+        client.addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
 
         client.addHeader("User-Agent", "request")
         client.get(link, object : AsyncHttpResponseHandler() {
@@ -93,7 +93,7 @@ class MainViewModel : ViewModel() {
 
         val link = "$url/search/users?q=$username"
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "")
+        client.addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
 
         client.addHeader("User-Agent", "request")
         client.get(link, object : AsyncHttpResponseHandler() {
@@ -114,6 +114,7 @@ class MainViewModel : ViewModel() {
                             // taking an object sesuai urutan
                             val item = items.getJSONObject(i)
                             val user = User()
+                            user.id = item.getInt("id")
                             user.username = item.getString("login")
                             user.avatar = item.getString("avatar_url")
                             listItems.add(user)
@@ -154,7 +155,7 @@ class MainViewModel : ViewModel() {
         val link = "$url/users"
 
         val client = AsyncHttpClient()
-        client.addHeader("Authorization", "")
+        client.addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
         client.addHeader("User-Agent", "request")
         client.get(link, object : AsyncHttpResponseHandler() {
             override fun onSuccess(

@@ -3,6 +3,7 @@ package com.example.github2.view.fragment
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,6 @@ import com.example.github2.view.adapter.DetailAdapter
 import com.example.github2.viewmodel.MainViewModel
 
 
-@Suppress("DEPRECATION")
 class UserDetailFragment : Fragment() {
     private lateinit var adapter: DetailAdapter
     private lateinit var mainViewModel: MainViewModel
@@ -38,7 +38,7 @@ class UserDetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentUserDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -46,7 +46,7 @@ class UserDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = DetailAdapter()
+        adapter = this.let { DetailAdapter(requireContext()) }
         mainViewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
@@ -55,7 +55,6 @@ class UserDetailFragment : Fragment() {
         recyclerView()
         val username = arguments?.getString(Username)
         val type = arguments?.getString(TypeUser)
-
 
         if (type != null) {
             mainViewModel.setFollowerAndFollowing(username, type)
@@ -92,10 +91,12 @@ class UserDetailFragment : Fragment() {
     }
 
     private fun dataNotFound(state: Boolean) {
-        if (state) {
-            binding.dataNotFound.visibility = View.VISIBLE
-        } else {
-            binding.dataNotFound.visibility = View.GONE
+        binding.apply {
+            if (state) {
+                dataNotFound.visibility = View.VISIBLE
+            } else {
+                dataNotFound.visibility = View.GONE
+            }
         }
     }
 
@@ -113,7 +114,7 @@ class UserDetailFragment : Fragment() {
 
                     showLoading(false)
                     val delayTime = 1000L
-                    Handler().postDelayed({
+                    Handler(Looper.getMainLooper()).postDelayed({
                         dataNotFound(true)
                     }, delayTime)
                 })
